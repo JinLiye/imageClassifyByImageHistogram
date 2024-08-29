@@ -77,6 +77,14 @@ id01_4
 5. Modify the num_of_del as needed
 6. Run the code and input 'enter', and then the code will return the result under the '/folder path'
 
+## rename.py
+> this code is used to rename the folders. When you use app.py to classify the pictures, maybe you will find the picture under id01_1/rgb and id01_2/rgb are the same, so you should move them into one folder and delete the other folder. This action will lead the folder name unordered, so you should use this code to rename the folders.
+1. Modify the folder path as attached on line 46
+2. change the number 'a' as attached on line 47
+3. Run the code
+> the name of the folder will be changed as id'a'_1, id'a'_2, id'a'_3, and so on.
+
+
 ## Use the related libraries:
 >
 > PIL
