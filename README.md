@@ -1,60 +1,83 @@
 # Identify similar images
 
-- 利用直方图距离计算图片相似度
+# How to use
+## the input of the code
+1. the the folder path of your project
+2. num_of_del(If the same type of image is less than this value, all of them will be deleted)
+3. threshold(If tow picture's Similarity more than the threshold,they will be considered as the same picture)
 
-计算公式：
+## the struct of the input folder
+```
+id01
+├── rgb
+│   ├── 1.bmp
+│   ├── 2.bmp
+│   └── 3.bmp
+id02
+├── rgb
+│   ├── 1.bmp
+│   ├── 2.bmp
+│   └── 3.bmp
+id03
+├── rgb
+│   ├── 1.bmp
+│   ├── 2.bmp
+│   └── 3.bmp
+id04
+├── rgb
+│   ├── 1.bmp
+│   ├── 2.bmp
+│   └── 3.bmp
+id05
+├── rgb
+│   ├── 1.bmp
+│   ├── 2.bmp
+│   └── 3.bmp
+```
+> if you want to classify the picture under ./id01/rgb ,the input folder should be ./id01, the name of the picture is random, but it should be xxx.bmp，if your picture is xxx.jpg or others, you can edit the code in app.py，change
+```
+all_images = [os.path.join(rgb_folder, f) for f in os.listdir(rgb_folder) if f.endswith('.bmp')]
+```
+> to 
+```
+all_images = [os.path.join(rgb_folder, f) for f in os.listdir(rgb_folder) if f.endswith('.jpg')]
+```
+> or the format of your picture
+## the output of the code
 
-<img src="http://chart.googleapis.com/chart?cht=tx&chl=Sim(G,S)=\frac{1}{N}\sum_{i=1}^{N}{(1-\frac{|g_i-s_i|}{Max(g_i,s_i)})}" style="border:none;">
+the output of the code is a folder, the structure is like this:
+```
+id01_1
+├── rgb
+│   ├── 1.bmp
+│   ├── 2.bmp
+│   └── 3.bmp
+id01_2
+├── rgb
+│   ├── 4.bmp
+│   ├── 5.bmp
+│   └── 6.bmp
+id01_3
+├── rgb
+│   ├── 7.bmp
+│   ├── 8.bmp
+│   └── 9.bmp
+id01_4
+├── rgb
+│   ├── 10.bmp
+│   ├── 11.bmp
+```
+> the folder id01_1 is under the folder id01, and the folder id01_2 is under the folder id01, and so on. The picture under ./id01_1/rgb is the same picture, and the picture under ./id01_2/rgb is the same picture, and so on.
 
-其中，G和S为两张图片的图像颜色分布直方图，N为颜色空间样点数。
+## app.py
+1. Before you run the code, you should firstly install related libraries
+2. Modify the folder path as attached on line 108
+3. Run the code and input '1', and the code will compute the similarity between the first picture and others, and it will return a recommended threshold.
+4. Modify the threshold as attached on line 110, you can use the recommended threshold or modify it by yourself.
+5. Modify the num_of_del as needed
+6. Run the code and input 'enter', and then the code will return the result under the '/folder path'
 
-这里使用分块的方法计算相似度，用以提高各部分的特征，防止图片颜色相似导致计算的相似度高。
-
-- 利用平均哈希算法计算图片相似度
-
-计算步骤：
-
-1. 缩放图片：一般大小为8*8，64个像素值
-2. 简化色彩，转化为灰度图：可以使用Image的convert('L')方法
-3. 计算平均值：计算出灰度图所有像素点的像素值的平均值
-4. 比较像素灰度值：遍历灰度图的每一个像素值与上一步计算的平均值，大于平均值记录为1，否则为0
-5. 得到64位图像指纹
-6. 记录两张图片的图像指纹的汉明距离，计算图片相似度
-
-- 利用感知哈希算法计算图片相似度
-
-计算步骤：
-
-1. 缩放图片：一般大小为32*32，这样方便DCT计算
-2. 简化色彩，转化为灰度图：可以使用Image的convert('L')方法
-3. 计算DCT（[离散余弦变换](https://en.wikipedia.org/wiki/Discrete_cosine_transform)）:
-    > 获得图像的二维数据矩阵f(x,y)
-    >
-    > 求离散余弦变换的系数矩阵[A]
-    >
-    > 求系数矩阵对应的转置矩阵[A]T
-    >
-    > 根据公式[F(u,v)]=[A][f(x,y)][A]T 计算离散余弦变换
-
-4. 缩小DCT：DCT计算后的矩阵是32\*32，保留左上角的8\*8，这些代表的图片的最低频率
-5. 计算平均值：计算缩小DCT后的所有像素点的平均
-6. 进一步减小DCT：大于平均值记录为1，否则为0
-7. 得到64位信息指纹
-8. 记录两张图片的图像指纹的汉明距离，计算图片相似度
-
-- 利用差异哈希算法计算图片相似度
-
-计算步骤：
-
-1. 缩放图片：一般大小为9*8，以留下多一行的像素数据进行差异计算
-2. 简化色彩，转化为灰度图：可以使用Image的convert('L')方法
-3. 计算差异值：dHash算法工作在相邻像素之间，这样每行9个像素之间产生了8个不同的差异，一共8行，则产生了64个差异哈希值
-4. 得到64位信息指纹：如果左边的像素比右边的更亮，则记录为1，否则为0
-5. 记录两张图片的图像指纹的汉明距离，计算图片相似度
-
-<br><br>
-
-Use the related libraries:
+## Use the related libraries:
 >
 > PIL
 >
