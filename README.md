@@ -71,9 +71,9 @@ id01_4
 
 ## app.py
 1. Before you run the code, you should firstly install related libraries
-2. Modify the folder path as attached on line 108
+2. Modify the folder path as attached on line 113
 3. Run the code and input '1', and the code will compute the similarity between the first picture and others, and it will return a recommended threshold.
-4. Modify the threshold as attached on line 110, you can use the recommended threshold or modify it by yourself.
+4. Modify the threshold as attached on line 115, you can use the recommended threshold or modify it by yourself.
 5. Modify the num_of_del as needed
 6. Run the code and input 'enter', and then the code will return the result under the '/folder path'
 

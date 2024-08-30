@@ -37,7 +37,8 @@ def view_similar_images(src_folder):
 
     # 计算1/4分位数的位置
     pos = len(sorted_data) - len(sorted_data)*0.1
-    print(f"\nRecommended thresholds：{sorted_data[int(pos)]}")
+    temp = min(sorted_data[int(pos)]+0.2,0.92)
+    print(f"\nRecommended thresholds：{sorted_data[int(pos)]}-{temp}")
 
 def move_or_delete_images(src_folder,num_of_del,yuzhi):
     # 定义图片所在的子文件夹路径
@@ -76,7 +77,11 @@ def move_or_delete_images(src_folder,num_of_del,yuzhi):
                 # print("============")
                 to_move.append(img_path)
                 # 强调变化性
-                new_base_image_path = img_path
+                new_base_image_path = img_path          
+        if yuzhi > 0.5505:
+            yuzhi -= 0.008
+        else:
+            yuzhi += 0.12
         print(len(to_move))
         if len(to_move) < num_of_del:
             # 如果相似图片小于7，删除这些文件
