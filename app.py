@@ -36,7 +36,7 @@ def view_similar_images(src_folder):
     n = len(sorted_data)
 
     # 计算1/4分位数的位置
-    pos = len(sorted_data) - len(sorted_data)*0.12
+    pos = len(sorted_data) - len(sorted_data)*0.1
     print(f"\nRecommended thresholds：{sorted_data[int(pos)]}")
 
 def move_or_delete_images(src_folder,num_of_del,yuzhi):
